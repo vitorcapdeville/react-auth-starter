@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useToken } from "../auth/useToken";
 
@@ -7,7 +7,15 @@ export const LogInPage = () => {
   const [, setToken] = useToken();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { googleOauthUrl, token: oauthToken } = useLoaderData();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (oauthToken) {
+      setToken(oauthToken);
+      navigate("/");
+    }
+  }, [oauthToken, setToken, navigate]);
 
   const onLogInClicked = async () => {
     const response = await axios.post("http://localhost:8080/api/login", {
@@ -41,6 +49,14 @@ export const LogInPage = () => {
       </button>
       <button onClick={() => navigate("/signup")}>
         Don't have an account? Sign up
+      </button>
+      <button
+        disabled={!googleOauthUrl}
+        onClick={() => {
+          window.location.href = googleOauthUrl;
+        }}
+      >
+        Log in with Google
       </button>
     </div>
   );

@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { UserInfoPage } from "./pages/UserInfoPage";
 import { LogInPage } from "./pages/LogInPage";
+import { loader as LogInPageLoader } from "./pages/LogInPageLoader.js";
 import { SignUpPage } from "./pages/SignUpPage";
 import { PrivateRoutes } from "./auth/PrivateRoute";
 import { VerifyEmailPage } from "./pages/VerifyEmailPage.js";
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LogInPage />,
+        loader: LogInPageLoader,
       },
       {
         path: "/signup",
