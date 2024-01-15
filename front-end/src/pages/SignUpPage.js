@@ -8,7 +8,7 @@ export const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, ] = useState("");
   const navigate = useNavigate();
 
   const onSignUpClicked = async () => {

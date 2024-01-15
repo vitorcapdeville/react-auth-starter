@@ -8,6 +8,7 @@ export const LogInPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { googleOauthUrl, token: oauthToken } = useLoaderData();
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,17 +19,23 @@ export const LogInPage = () => {
   }, [oauthToken, setToken, navigate]);
 
   const onLogInClicked = async () => {
-    const response = await axios.post("http://localhost:8080/api/login", {
-      email: email,
-      password: password,
-    });
-    setToken(response.data.token);
-    navigate("/");
+    try {
+      setErrorMessage("");
+      const response = await axios.post("http://localhost:8080/api/login", {
+        email: email,
+        password: password,
+      });
+      setToken(response.data.token);
+      navigate("/");
+    } catch (e) {
+      setErrorMessage("Invalid email or password");
+    }
   };
 
   return (
     <div className="content-container">
       <h1>Log In</h1>
+      {errorMessage && <p className="fail">{errorMessage}</p>}
       <input
         placeholder="someone@gmail.com"
         value={email}
